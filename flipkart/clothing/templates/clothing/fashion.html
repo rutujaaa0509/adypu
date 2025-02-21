@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenora Store</title>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        header {
+            background-color: #2874f0;
+            color: white;
+            padding: 20px 0;
+            text-align: center;
+        }
+
+        header h1 {
+            font-family: 'Dancing Script', cursive;
+            font-size: 50px;
+            margin: 0;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .product {
+            width: 23%;
+            background-color: white;
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            text-align: center;
+            position: relative;
+        }
+
+        .product img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 10px;
+        }
+
+        .product-info {
+            margin-top: 15px;
+        }
+
+        .product-info p {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+
+        .product-info .price {
+            font-size: 20px;
+            font-weight: 600;
+            color: #28a745;
+        }
+
+        .quantity-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        .quantity-container button {
+            background-color: #ddd;
+            border: 1px solid #ccc;
+            padding: 5px 10px;
+            font-size: 18px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .quantity-container input {
+            width: 40px;
+            padding: 5px;
+            font-size: 16px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            text-align: center;
+            margin-left: 10px;
+            margin-right: 10px;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .btn-buy {
+            background-color: #28a745;
+            color: #fff;
+        }
+
+        .btn-cart {
+            background-color: #007bff;
+            color: #fff;
+        }
+
+        .btn:hover {
+            opacity: 0.8;
+        }
+
+        .search-bar {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+        }
+
+        .filter-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .filter-bar select, .filter-bar input {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .wishlist-btn {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: transparent;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            font-size: 24px;
+            color: #fff;
+        }
+
+        .wishlist-btn:hover {
+            opacity: 0.8;
+        }
+
+        .quick-view-btn {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #9b59b6;
+            color: white;
+            border: none;
+            padding: 8px 12px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .quick-view-btn:hover {
+            opacity: 0.8;
+        }
+
+        /* Modal Style */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.4);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto;
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%;
+            max-width: 500px;
+        }
+
+        .modal-header {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+
+        .close {
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            position: absolute;
+            top: 10px;
+            right: 25px;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .review-section {
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        .review-section input {
+            width: 60%;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            margin-top: 5px;
+        }
+
+        .review-section button {
+            padding: 5px 10px;
+            margin-top: 10px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Header Section -->
+    <header>
+        <h1>Zenora</h1>
+    </header>
+
+    <!-- Search Bar Section -->
+    <div class="container">
+        <input class="search-bar" type="text" placeholder="Search for products...">
+    </div>
+
+    <!-- Filter Section -->
+    <div class="filter-bar">
+        <select>
+            <option value="all">All Categories</option>
+            <option value="electronics">Electronics</option>
+            <option value="fashion">Fashion</option>
+            <option value="home">Home</option>
+        </select>
+
+        <input type="number" placeholder="Max Price" />
+        <select>
+            <option value="popularity">Sort by Popularity</option>
+            <option value="price-asc">Price: Low to High</option>
+            <option value="price-desc">Price: High to Low</option>
+        </select>
+    </div>
+
+    <!-- Products Section -->
+    <div class="container">
+        {% for p_i in pro_img %}
+            <div class="product">
+                {% if p_i.image %}
+                    <img src="{{ p_i.image.url }}" alt="{{ p_i.name }}">
+                {% else %}
+                    <div class="no-image">No Image</div>
+                {% endif %}
+
+                <!-- Wishlist and Quick View buttons -->
+                <button class="wishlist-btn">&#9825;</button>
+                <button class="quick-view-btn" onclick="showQuickView('{{ p_i.id }}')">Quick View</button>
+
+                <div class="product-info">
+                    <p><strong>Name:</strong> {{ p_i.name }}</p>
+                    <p><strong>Size:</strong> {{ p_i.size }}</p>
+                    <p><strong>Color:</strong> {{ p_i.color }}</p>
+                    <p class="price"><strong>Price:</strong> ₹{{ p_i.price }}</p>
+
+                    <!-- Quantity and Buttons -->
+                    <div class="quantity-container">
+                        <button class="quantity-btn" onclick="decreaseQuantity('{{ p_i.id }}')">-</button>
+                        <input type="number" value="1" min="1" id="quantity-{{ p_i.id }}">
+                        <button class="quantity-btn" onclick="increaseQuantity('{{ p_i.id }}')">+</button>
+                    </div>
+
+                    <div>
+                        <button class="btn btn-cart">Add to Cart</button>
+                        <button class="btn btn-buy">Buy Now</button>
+                    </div>
+
+                    <!-- Product Review Section -->
+                    <div class="review-section">
+                        <label for="review-{{ p_i.id }}">Leave a review:</label>
+                        <input type="text" id="review-{{ p_i.id }}" placeholder="Write your review...">
+                        <button>Submit Review</button>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+    <!-- Quick View Modal -->
+    <div id="quickViewModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Product Quick View</h2>
+            <div id="quick-view-content"></div>
+        </div>
+    </div>
+
+    <script>
+        // Increase the quantity
+        function increaseQuantity(productId) {
+            var quantityInput = document.getElementById('quantity-' + productId);
+            var currentQuantity = parseInt(quantityInput.value);
+            quantityInput.value = currentQuantity + 1;
+        }
+
+        // Decrease the quantity
+        function decreaseQuantity(productId) {
+            var quantityInput = document.getElementById('quantity-' + productId);
+            var currentQuantity = parseInt(quantityInput.value);
+            if (currentQuantity > 1) {
+                quantityInput.value = currentQuantity - 1;
+            }
+        }
+
+        // Open quick view modal
+        function showQuickView(productId) {
+            var modal = document.getElementById("quickViewModal");
+            var content = document.getElementById("quick-view-content");
+            content.innerHTML = "Loading details for product " + productId + "..."; // You can replace this with actual product details.
+            modal.style.display = "block";
+        }
+
+        // Close the quick view modal
+        function closeModal() {
+            document.getElementById("quickViewModal").style.display = "none";
+        }
+    </script>
+
+</body>
+</html>
